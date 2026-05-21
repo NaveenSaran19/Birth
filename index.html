@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Preetha 💙</title>
+    <link rel="icon" type="image/png" href="Image/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Kavivanar&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css?v=4.0">
+</head>
+<body>
+    <!-- Background Audio -->
+    <audio id="bg-music" loop>
+        <source src="bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Global Canvas for Stars/Ocean -->
+    <canvas id="universe-canvas"></canvas>
+    
+    <div class="noise-overlay"></div>
+
+    <!-- Interactive Landing (Cake) -->
+    <section id="landing" class="cinematic-section active">
+        <div class="wish-container text-center">
+            <h2 class="section-title">Make a Wish 🌌</h2>
+            <p class="tamil-text mb-5">Tap the candle to blow it out</p>
+            
+            <div id="birthday-cake" class="glow-cake">
+                <div class="cake-plate"></div>
+                <div class="cake-body">
+                    <div class="cake-icing"></div>
+                </div>
+                <div class="cake-candle">
+                    <div class="cake-flame"></div>
+                </div>
+            </div>
+            <p class="tamil-text mt-5">தொட்டு மெழுகுவர்த்தியை அணைக்கவும் 💙</p>
+        </div>
+    </section>
+
+    <!-- Main Content (Hidden until candle is blown) -->
+    <div id="main-content" style="display: none; opacity: 0; transition: opacity 2s ease;">
+        <!-- Opening Scene -->
+        <section id="opening-scene" class="cinematic-section">
+            <div class="content-wrapper text-center">
+                <h1 class="typing-text glass-text" id="intro-text"></h1>
+                <div class="scroll-indicator fade-in-delayed">
+                    <p>Scroll to explore our universe</p>
+                    <i class="bi bi-chevron-double-down"></i>
+                </div>
+            </div>
+        </section>
+
+    <!-- Ocean Memory Section -->
+    <section id="ocean-memory" class="cinematic-section">
+        <div class="content-wrapper container">
+            <h2 class="section-title reveal-text">Ocean of Memories 🌊</h2>
+            <div class="row g-4 mt-4">
+                <div class="col-12 col-md-4">
+                    <div class="glass-card memory-card float-anim-1 scroll-reveal">
+                        <div class="memory-img-frame">
+                            <div class="shimmer-overlay"></div>
+                            <img src="Image/1.jpeg" alt="Memory 1" class="card-img">
+                        </div>
+                        <div class="card-content">
+                            <h3>Our First Photo</h3>
+                            <p class="tamil-text">அன்பு 💖</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="glass-card memory-card float-anim-2 scroll-reveal" style="transition-delay: 200ms;">
+                        <div class="memory-img-frame">
+                            <div class="shimmer-overlay"></div>
+                            <img src="Image/2.jpeg" alt="Memory 2" class="card-img">
+                        </div>
+                        <div class="card-content">
+                            <h3>Beautiful Moments</h3>
+                            <p class="tamil-text">அழகு ✨</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="glass-card memory-card float-anim-3 scroll-reveal" style="transition-delay: 400ms;">
+                        <div class="memory-img-frame">
+                            <div class="shimmer-overlay"></div>
+                            <img src="Image/3.jpeg" alt="Memory 3" class="card-img">
+                        </div>
+                        <div class="card-content">
+                            <h3>My Whole World</h3>
+                            <p class="tamil-text">என் உலகம் 💫</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5 scroll-reveal">
+                <a href="image.html" class="luxury-btn">Dive into all memories <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Moonlight Chat Section -->
+    <section id="moonlight-chat" class="cinematic-section">
+        <div class="content-wrapper container">
+            <h2 class="section-title text-center reveal-text">Late Night Whispers 🌙</h2>
+            
+            <div class="chat-container mt-5">
+                <!-- 50+ Chat Bubbles Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Sweet Treats Section -->
+    <section id="sweet-treats" class="cinematic-section">
+        <div class="content-wrapper container">
+            <h2 class="section-title text-center reveal-text mb-5">Your Favorites 🍦</h2>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10">
+                    <div class="glass-card memory-card scroll-reveal">
+                        <div class="memory-img-frame" style="aspect-ratio: auto; max-height: 600px;">
+                            <div class="shimmer-overlay"></div>
+                            <img src="Image/twin.png" alt="Arun Icecreams Twiins" class="card-img" style="object-fit: contain;">
+                        </div>
+                        <div class="card-content text-center mt-3">
+                            <h3 class="glow-text">Arun Icecreams Twiins 🍓</h3>
+                            <p class="tamil-text mt-2">உனக்கு பிடித்தமான இனிப்புகள் ✨</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Star Map / Future Dreams Section -->
+    <section id="star-map" class="cinematic-section">
+        <div class="content-wrapper container">
+            <h2 class="section-title text-center reveal-text">Our Constellation 🚀</h2>
+            
+            <div class="row g-4 mt-5 justify-content-center">
+                <div class="col-12 col-md-5">
+                    <div class="glass-card dream-card scroll-reveal glow-border">
+                        <div class="icon-ring"><i class="bi bi-airplane"></i></div>
+                        <h3>Future Adventures</h3>
+                        <p>Exploring the world side by side, creating footprints on every shore.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5">
+                    <div class="glass-card dream-card scroll-reveal glow-border" style="transition-delay: 300ms;">
+                        <div class="icon-ring"><i class="bi bi-house-heart"></i></div>
+                        <h3>Our Goals</h3>
+                        <p>Building a life filled with endless laughter, peace, and love.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="final-wish text-center mt-5 scroll-reveal" style="transition-delay: 600ms;">
+                <h1 class="glow-text">Happy Birthday, Preetha 💙</h1>
+                <p class="tamil-text mt-3">என்றென்றும் என் அன்புடன்...</p>
+            </div>
+        </div>
+    </section>
+    </section>
+    </div>
+
+    <!-- Cinematic Footer -->
+    <footer class="cinematic-footer">
+        <div class="content-wrapper text-center">
+            <p>Made with endless love for Preetha 💙</p>
+            <div class="footer-glow"></div>
+        </div>
+    </footer>
+
+    <script src="script.js?v=4.0"></script>
+</body>
+</html>
