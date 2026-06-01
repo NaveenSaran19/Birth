@@ -117,6 +117,7 @@ body {
 /* Opening Scene */
 #intro-text {
     min-height: 150px; /* Prevent layout shift while typing */
+    font-family: var(--font-tamil), var(--font-heading);
 }
 .cursor-blink {
     display: inline-block;
@@ -432,13 +433,38 @@ body {
 }
 
 /* Mobile Responsiveness */
+@media (max-width: 991px) {
+    .glass-text { font-size: 2.8rem; }
+    .section-title { font-size: 2.6rem; }
+    .glow-text { font-size: 3rem; }
+}
+
 @media (max-width: 768px) {
     .glass-text { font-size: 2.2rem; }
     .section-title { font-size: 2.2rem; }
     .glow-text { font-size: 2.5rem; }
-    .chat-bubble { max-width: 95%; font-size: 1.1rem; }
-    .glass-panel { padding: 20px; }
+    .chat-bubble { max-width: 95%; font-size: 1.1rem; padding: 12px 20px; }
+    .glass-panel { padding: 30px 20px; }
     .cinematic-section { padding: 60px 15px; }
+    .memory-card h3 { font-size: 1.3rem; }
+    .luxury-btn { padding: 12px 25px; font-size: 1rem; }
+    .chat-container { height: 500px; padding: 15px; }
+    .dream-card { padding: 30px 20px; }
+}
+
+@media (max-width: 480px) {
+    .glass-text { font-size: 1.8rem; }
+    .section-title { font-size: 1.8rem; margin-bottom: 1.5rem; }
+    .glow-text { font-size: 2rem; }
+    .tamil-text { font-size: 1rem !important; }
+    .login-card { padding: 25px 15px; }
+    .input-group-custom input { font-size: 1rem; }
+    .chat-bubble { font-size: 1rem; padding: 10px 15px; }
+    .glass-card { padding: 15px; }
+    .floating-btn { width: 50px !important; height: 50px !important; font-size: 20px !important; bottom: 20px !important; right: 20px !important; }
+    .cake-body { width: 140px; }
+    .cake-plate { width: 170px; left: -15px; }
+    .cake-candle { left: 65px; }
 }
 
 /* Interactive Landing Cake */
@@ -588,4 +614,180 @@ body {
 @keyframes scroll-up {
     0% { transform: translateY(350px); }
     100% { transform: translateY(-2000px); }
+}
+
+/* ==========================================
+   LOGIN & SIGNUP PREMIUM STYLING
+   ========================================== */
+
+#login-section {
+    z-index: 10;
+    transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 480px;
+    padding: 40px;
+    border-radius: 28px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 0 30px rgba(56, 189, 248, 0.05);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Celebrating border glow when user typing matches 'Preetha' */
+.login-card.preetha-glow {
+    border-color: rgba(125, 211, 252, 0.8);
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.6), inset 0 0 30px rgba(56, 189, 248, 0.2);
+    animation: preetha-pulse 2s infinite alternate;
+}
+
+@keyframes preetha-pulse {
+    0% { transform: translateY(0) scale(1.01); box-shadow: 0 0 30px rgba(56, 189, 248, 0.4); }
+    100% { transform: translateY(-3px) scale(1.02); box-shadow: 0 0 50px rgba(125, 211, 252, 0.8), 0 0 20px rgba(37, 99, 235, 0.5); }
+}
+
+.custom-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    text-align: left;
+}
+
+.input-group-custom {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+    padding: 10px 0;
+    transition: border-color 0.3s ease;
+}
+
+.input-group-custom:focus-within {
+    border-color: var(--neon-blue);
+}
+
+.input-group-custom input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    padding: 5px 35px 5px 30px;
+    transition: all 0.3s ease;
+}
+
+/* Custom placeholder hide/show logic for floating label */
+.input-group-custom input::placeholder {
+    color: transparent;
+}
+
+.input-group-custom label {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.7;
+}
+
+/* Floating label active states */
+.input-group-custom input:focus ~ label,
+.input-group-custom input:not(:placeholder-shown) ~ label {
+    top: -10px;
+    font-size: 0.8rem;
+    color: var(--neon-blue);
+    opacity: 1;
+}
+
+.input-group-custom .input-icon {
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+.input-group-custom:focus-within .input-icon {
+    color: var(--neon-blue);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    padding: 5px;
+}
+
+.password-toggle:hover {
+    color: var(--neon-blue);
+}
+
+.switch-text {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.highlight-link {
+    color: var(--neon-blue);
+    cursor: pointer;
+    font-weight: 600;
+    transition: text-shadow 0.3s ease, color 0.3s ease;
+    text-decoration: underline;
+}
+
+.highlight-link:hover {
+    color: var(--soft-glow);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+.error-message {
+    color: #ef4444;
+    font-size: 0.95rem;
+    text-align: center;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 10px;
+    border-radius: 12px;
+    animation: shake 0.4s ease-in-out;
+}
+
+.success-message {
+    color: #10b981;
+    font-size: 0.95rem;
+    text-align: center;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    padding: 10px;
+    border-radius: 12px;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.heart-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: var(--neon-blue);
+    animation: heartbeat 1.2s infinite ease-in-out;
+    display: none;
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
 }

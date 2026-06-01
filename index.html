@@ -23,8 +23,38 @@
     
     <div class="noise-overlay"></div>
 
+    <!-- Login & Signup Section -->
+    <section id="login-section" class="cinematic-section">
+        <div class="glass-panel login-card text-center float-anim-1">
+            <div class="heart-badge" id="preetha-heart"><i class="bi bi-heart-fill"></i></div>
+            <h2 class="section-title mb-2" id="login-title">Enter Our Universe 🌌</h2>
+            <p class="tamil-text mb-4" id="login-subtitle">உள்ளே நுழைய கடவுச்சொல்லை உள்ளிடவும் 💙</p>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="custom-form">
+                <div class="input-group-custom">
+                    <span class="input-icon"><i class="bi bi-person"></i></span>
+                    <input type="text" id="login-username" placeholder="Username" required autocomplete="username">
+                    <label for="login-username">Username</label>
+                </div>
+                
+                <div class="input-group-custom">
+                    <span class="input-icon"><i class="bi bi-lock"></i></span>
+                    <input type="password" id="login-password" placeholder="Password" required autocomplete="current-password">
+                    <label for="login-password">Password</label>
+                    <span class="password-toggle" id="toggle-login-pass"><i class="bi bi-eye-slash"></i></span>
+                </div>
+                
+                <div id="login-error" class="error-message Tamil-text mt-2" style="display: none;"></div>
+                
+                <button type="submit" class="luxury-btn w-100 mt-3">Unlock <i class="bi bi-unlock"></i></button>
+                
+            </form>
+        </div>
+    </section>
+
     <!-- Interactive Landing (Cake) -->
-    <section id="landing" class="cinematic-section active">
+    <section id="landing" class="cinematic-section active" style="display: none;">
         <div class="wish-container text-center">
             <h2 class="section-title">Make a Wish 🌌</h2>
             <p class="tamil-text mb-5">Tap the candle to blow it out</p>
@@ -127,8 +157,29 @@
                         </div>
                         <div class="card-content text-center mt-3">
                             <h3 class="glow-text">Arun Icecreams Twiins 🍓</h3>
-                            <p class="tamil-text mt-2">உனக்கு பிடித்தமான இனிப்புகள் ✨</p>
+                            <p class="tamil-text mt-2">உனக்கு பிடித்தமான ஐஸ்கிரீம் ✨</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tamil Poetry Section -->
+    <section id="tamil-poetry" class="cinematic-section">
+        <div class="content-wrapper container">
+            <h2 class="section-title text-center reveal-text mb-5">உனக்காக... 💌</h2>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <div class="glass-card scroll-reveal glow-border text-center" style="padding: 3rem 2rem;">
+                        <i class="bi bi-quote" style="font-size: 3rem; color: #38BDF8; opacity: 0.5;"></i>
+                        <p class="tamil-text mt-3 mb-4" style="font-size: 1.3rem; line-height: 2.2; color: #f8fafc; text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);">
+                            உன் கண்கள் பேசும் மொழியில் என் இதயம் முழுமையாக தொலைந்தது...<br><br>
+                            நீ சிரிக்கும் ஒவ்வொரு நொடியும் என் உலகம் ஆயிரம் மடங்கு அழகாகிறது...<br><br>
+                            இந்த பிரபஞ்சம் முழுவதும் தேடினாலும், உன்னை விட ஒரு அழகான பொக்கிஷம் எனக்கு கிடைக்காது.<br><br>
+                            என் ஒவ்வொரு சுவாசமும், ஒவ்வொரு துடிப்பும் உனக்காகவே... 💙
+                        </p>
+                        <i class="bi bi-stars" style="font-size: 2rem; color: #7DD3FC;"></i>
                     </div>
                 </div>
             </div>
@@ -169,11 +220,21 @@
     <!-- Cinematic Footer -->
     <footer class="cinematic-footer">
         <div class="content-wrapper text-center">
-            <p>Made with endless love for Preetha 💙</p>
+            <p class="tamil-text" style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.6); margin: 0; text-shadow: 0 0 5px rgba(56, 189, 248, 0.3);">முழுக்க முழுக்க பிரீத்தாவுக்காக உருவாக்கப்பட்டது 💙</p>
             <div class="footer-glow"></div>
         </div>
     </footer>
 
+    <!-- Floating Memories Button -->
+    <a id="floating-memories-btn" href="image.html" class="floating-btn" title="View Memories" style="display: none; position: fixed; bottom: 30px; right: 30px; background: rgba(37, 99, 235, 0.8); color: white; width: 60px; height: 60px; border-radius: 50%; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 0 20px rgba(56, 189, 248, 0.5); border: 2px solid #38BDF8; z-index: 1000; text-decoration: none; backdrop-filter: blur(5px); transition: opacity 2s ease; opacity: 0;">
+        <i class="bi bi-images"></i>
+    </a>
+    <style>
+        .floating-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(56, 189, 248, 0.8); color: white; }
+        @keyframes fadeIn { to { opacity: 1; } }
+    </style>
+
+    <script src="anti-inspect.js"></script>
     <script src="script.js?v=4.0"></script>
 </body>
 </html>

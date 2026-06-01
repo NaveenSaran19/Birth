@@ -4,12 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const introTextElement = document.getElementById('intro-text');
     const introLines = [
+        "இனிய பிறந்தநாள் வாழ்த்துக்கள் பிரீத்தா 💙",
         "In this huge universe…",
-        "my favorite place is beside you. 💙"
+        "my favorite place is beside you."
     ];
     
     async function typeIntro() {
         introTextElement.innerHTML = '';
+        const segmenter = new Intl.Segmenter('ta-IN', { granularity: 'grapheme' });
+        
         for (let index = 0; index < introLines.length; index++) {
             const line = introLines[index];
             const span = document.createElement('span');
@@ -18,13 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             introTextElement.appendChild(span);
 
-            for (let i = 0; i <= line.length; i++) {
-                span.innerHTML = line.substring(0, i) + '<span class="cursor-blink"></span>';
+            let graphemes;
+            if (window.Intl && Intl.Segmenter) {
+                const segmenter = new Intl.Segmenter('ta-IN', { granularity: 'grapheme' });
+                graphemes = Array.from(segmenter.segment(line)).map(s => s.segment);
+            } else {
+                graphemes = Array.from(line);
+            }
+            
+            let currentText = '';
+
+            for (let i = 0; i < graphemes.length; i++) {
+                currentText += graphemes[i];
+                span.innerHTML = currentText + '<span class="cursor-blink"></span>';
                 await new Promise(resolve => setTimeout(resolve, 80)); // Typing speed
             }
             
             // Remove cursor from this line after typing
-            span.innerHTML = line;
+            span.innerHTML = currentText;
             await new Promise(resolve => setTimeout(resolve, 1000)); // Pause between lines
         }
     }
@@ -36,6 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainContent = document.getElementById('main-content');
     const bgMusic = document.getElementById('bg-music');
     let isStarted = false;
+
+    function showFloatingButton() {
+        const btn = document.getElementById('floating-memories-btn');
+        if (btn) {
+            btn.style.display = 'flex';
+            setTimeout(() => {
+                btn.style.opacity = '1';
+            }, 3000);
+        }
+    }
 
     function setupAudioSync() {
         if (!bgMusic) return;
@@ -53,17 +77,250 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     }
 
-    if (localStorage.getItem('wished') === 'true') {
-        // Skip candle if already wished
-        if (landing) landing.style.display = 'none';
-        if (mainContent) {
-            mainContent.style.display = 'block';
-            mainContent.style.opacity = '1';
-        }
-        setupAudioSync();
-        initScrollAnimations();
-        setTimeout(typeIntro, 500);
-    } else if (cake) {
+    // ==========================================
+    // LOGIN & MOCK DATABASE SYSTEM
+    // ==========================================
+    const defaultUsers = [{ username: 'Preetha', password: 'Preetha@03061999' }];
+    localStorage.setItem('users', JSON.stringify(defaultUsers));
+
+    const loginSection = document.getElementById('login-section');
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const toSignupBtn = document.getElementById('to-signup');
+    const toLoginBtn = document.getElementById('to-login');
+    
+    const loginUsernameInput = document.getElementById('login-username');
+    const loginPasswordInput = document.getElementById('login-password');
+    const signupUsernameInput = document.getElementById('signup-username');
+    const signupPasswordInput = document.getElementById('signup-password');
+    
+    const loginError = document.getElementById('login-error');
+    const signupError = document.getElementById('signup-error');
+    const signupSuccess = document.getElementById('signup-success');
+    
+    const toggleLoginPass = document.getElementById('toggle-login-pass');
+    const toggleSignupPass = document.getElementById('toggle-signup-pass');
+    
+    const preethaHeart = document.getElementById('preetha-heart');
+    const loginCard = document.querySelector('.login-card');
+    const loginTitle = document.getElementById('login-title');
+    const loginSubtitle = document.getElementById('login-subtitle');
+
+    // Switch between forms
+    if (toSignupBtn) {
+        toSignupBtn.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'flex';
+            loginTitle.innerText = "Join Our Galaxy 🌌";
+            loginSubtitle.innerText = "புதிய கணக்கை உருவாக்கவும் 💙";
+            loginError.style.display = 'none';
+        });
+    }
+
+    if (toLoginBtn) {
+        toLoginBtn.addEventListener('click', () => {
+            signupForm.style.display = 'none';
+            loginForm.style.display = 'flex';
+            loginTitle.innerText = "Enter Our Universe 🌌";
+            loginSubtitle.innerText = "உள்ளே நுழைய கடவுச்சொல்லை உள்ளிடவும் 💙";
+            signupError.style.display = 'none';
+            signupSuccess.style.display = 'none';
+        });
+    }
+
+    // Toggle Passwords
+    if (toggleLoginPass && loginPasswordInput) {
+        toggleLoginPass.addEventListener('click', () => {
+            const icon = toggleLoginPass.querySelector('i');
+            if (loginPasswordInput.type === 'password') {
+                loginPasswordInput.type = 'text';
+                icon.className = 'bi bi-eye';
+            } else {
+                loginPasswordInput.type = 'password';
+                icon.className = 'bi bi-eye-slash';
+            }
+        });
+    }
+
+    if (toggleSignupPass && signupPasswordInput) {
+        toggleSignupPass.addEventListener('click', () => {
+            const icon = toggleSignupPass.querySelector('i');
+            if (signupPasswordInput.type === 'password') {
+                signupPasswordInput.type = 'text';
+                icon.className = 'bi bi-eye';
+            } else {
+                signupPasswordInput.type = 'password';
+                icon.className = 'bi bi-eye-slash';
+            }
+        });
+    }
+
+    // Preetha special interactive effect
+    if (loginUsernameInput) {
+        loginUsernameInput.addEventListener('input', () => {
+            const val = loginUsernameInput.value.trim();
+            if (val.toLowerCase() === 'preetha') {
+                loginCard.classList.add('preetha-glow');
+                if (preethaHeart) preethaHeart.style.display = 'block';
+                loginSubtitle.innerText = "Happy Birthday Preetha! 🎂💙";
+            } else {
+                loginCard.classList.remove('preetha-glow');
+                if (preethaHeart) preethaHeart.style.display = 'none';
+                loginSubtitle.innerText = "உள்ளே நுழைய கடவுச்சொல்லை உள்ளிடவும் 💙";
+            }
+        });
+    }
+
+    // Signup submission
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            signupError.style.display = 'none';
+            signupSuccess.style.display = 'none';
+            
+            const username = signupUsernameInput.value.trim();
+            const password = signupPasswordInput.value;
+            
+            if (username.length < 3) {
+                signupError.innerText = "பயனர் பெயர் மிகவும் குறுகியது (Name too short)";
+                signupError.style.display = 'block';
+                return;
+            }
+            if (password.length < 6) {
+                signupError.innerText = "கடவுச்சொல் குறைந்தது 6 எழுத்துகள் இருக்க வேண்டும் (Password too weak)";
+                signupError.style.display = 'block';
+                return;
+            }
+            
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            const exists = users.some(u => u.username.toLowerCase() === username.toLowerCase());
+            if (exists) {
+                signupError.innerText = "இந்த பயனர் பெயர் ஏற்கனவே உள்ளது (Username exists)";
+                signupError.style.display = 'block';
+                return;
+            }
+            
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            signupSuccess.innerText = "கணக்கு உருவாக்கப்பட்டது! உள்நுழையவும் ✨";
+            signupSuccess.style.display = 'block';
+            
+            // Auto fill login username and switch views with a slight delay
+            if (loginUsernameInput) {
+                loginUsernameInput.value = username;
+                loginUsernameInput.dispatchEvent(new Event('input'));
+            }
+            if (loginPasswordInput) loginPasswordInput.value = '';
+            
+            setTimeout(() => {
+                if (toLoginBtn) toLoginBtn.click();
+            }, 1500);
+        });
+    }
+
+    // Login submission
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginError.style.display = 'none';
+            
+            const username = loginUsernameInput.value.trim();
+            const password = loginPasswordInput.value;
+            
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+            
+            if (!user) {
+                loginError.innerText = "தவறான பயனர் பெயர் அல்லது கடவுச்சொல் (Invalid Credentials) ❌";
+                loginError.style.display = 'block';
+                // Trigger shake animation
+                loginCard.style.animation = 'none';
+                void loginCard.offsetWidth; // trigger reflow
+                loginCard.style.animation = 'shake 0.4s ease-in-out';
+                return;
+            }
+            
+            // Successful Login
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('currentUser', username);
+            
+            // Success animation
+            loginCard.style.opacity = '0';
+            loginCard.style.transform = 'scale(0.9) translateY(-20px)';
+            loginCard.style.filter = 'blur(10px)';
+            
+            setTimeout(() => {
+                if (loginSection) loginSection.style.display = 'none';
+                
+                // Start cake or main scene depending on wish state
+                if (localStorage.getItem('wished') === 'true') {
+                    if (landing) landing.style.display = 'none';
+                    if (mainContent) {
+                        mainContent.style.display = 'block';
+                        void mainContent.offsetWidth;
+                        mainContent.style.opacity = '1';
+                    }
+                    setupAudioSync();
+                    showFloatingButton();
+                    initScrollAnimations();
+                    setTimeout(typeIntro, 500);
+                } else {
+                    if (landing) {
+                        landing.style.display = 'flex';
+                        void landing.offsetWidth;
+                        landing.style.opacity = '1';
+                    }
+                }
+            }, 800);
+        });
+    }
+
+    // ==========================================
+    // INITIAL ROUTING FLOW
+    // ==========================================
+    // Always start from login page to show the full sequence
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('wished');
+
+    if (loginSection) loginSection.style.display = 'flex';
+    if (landing) landing.style.display = 'none';
+    if (mainContent) mainContent.style.display = 'none';
+
+    // ==========================================
+    // CAKE BLOW EVENT LISTENER
+    // ==========================================
+    if (cake) {
+        const cakeEl = document.getElementById('birthday-cake');
+        
+        // Sparkler effect before blowing the candle
+        let sparkInterval = setInterval(() => {
+            const flame = cakeEl.querySelector('.cake-flame');
+            if (!flame || flame.classList.contains('extinguished')) {
+                clearInterval(sparkInterval);
+                return;
+            }
+            
+            const spark = document.createElement('div');
+            spark.classList.add('spark');
+            
+            const angle = (Math.random() * Math.PI) - (Math.PI / 2);
+            const distance = Math.random() * 50 + 30;
+            const x = Math.cos(angle) * distance;
+            const y = Math.sin(angle) * distance - 20;
+
+            spark.style.setProperty('--tx', `${x}px`);
+            spark.style.setProperty('--ty', `${y}px`);
+            spark.style.left = '50%';
+            spark.style.top = '10px';
+            
+            flame.appendChild(spark);
+
+            setTimeout(() => {
+                if (spark.parentNode) spark.remove();
+            }, 800);
+        }, 100);
+
         cake.addEventListener('click', () => {
             if (isStarted) return;
             isStarted = true;
@@ -72,7 +329,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const flame = cake.querySelector('.cake-flame');
             if (flame) {
                 flame.classList.add('extinguished');
-                
+            }
+
+            setTimeout(() => {
                 const rect = flame.getBoundingClientRect();
                 const x = rect.left + rect.width / 2;
                 const y = rect.top + rect.height / 2;
@@ -82,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => window.createCrackerBlast(x - 50, y + 20), 200);
                     setTimeout(() => window.createCrackerBlast(x + 50, y - 10), 400);
                 }
-            }
+            }, 500);
 
             setupAudioSync();
 
@@ -99,6 +358,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     void mainContent.offsetWidth; 
                     
                     mainContent.style.opacity = '1';
+                    
+                    showFloatingButton();
                     
                     // Initialize scroll animations now that layout is calculated
                     initScrollAnimations();
@@ -235,7 +496,13 @@ document.addEventListener('DOMContentLoaded', () => {
             await new Promise(r => setTimeout(r, 200)); // Shorter wait before typing
 
             let currentText = '';
-            const chars = Array.from(text);
+            let chars;
+            if (window.Intl && Intl.Segmenter) {
+                const segmenter = new Intl.Segmenter('ta-IN', { granularity: 'grapheme' });
+                chars = Array.from(segmenter.segment(text)).map(s => s.segment);
+            } else {
+                chars = Array.from(text);
+            }
             
             for (let i = 0; i < chars.length; i++) {
                 currentText += chars[i];
@@ -349,7 +616,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            // Draw a small heart instead of a circle for fireworks
+            const topCurveHeight = p.radius * 0.3;
+            ctx.moveTo(p.x, p.y + topCurveHeight);
+            ctx.bezierCurveTo(p.x + p.radius / 2, p.y - p.radius / 2, p.x + p.radius * 1.2, p.y + topCurveHeight, p.x, p.y + p.radius);
+            ctx.bezierCurveTo(p.x - p.radius * 1.2, p.y + topCurveHeight, p.x - p.radius / 2, p.y - p.radius / 2, p.x, p.y + topCurveHeight);
             ctx.fillStyle = p.color;
             ctx.globalAlpha = p.alpha;
             ctx.fill();

@@ -240,10 +240,28 @@
             box-shadow: 5px 10px 20px rgba(56, 189, 248, 0.2), inset 0 0 15px rgba(56, 189, 248, 0.1);
         }
 
+        @media (max-width: 991px) {
+            .header h1 { font-size: 3rem; }
+            .glow-frame { width: 220px; height: 440px; }
+        }
+
         @media (max-width: 768px) {
             .header h1 { font-size: 2.5rem; }
+            .header p { font-size: 1.2rem; }
             .back-btn { top: 20px; left: 20px; font-size: 0.9rem; padding: 10px 15px; }
-            .marquee-container { padding: 20px 0; gap: 20px; }
+            .marquee-container { padding: 20px 0; margin: 30px 0; }
+            .glow-frame { width: 180px; height: 360px; }
+            .chat-bubble { font-size: 1rem; padding: 12px 15px; }
+            .image-wrapper { gap: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .header { padding: 80px 15px 15px 15px; }
+            .header h1 { font-size: 2rem; }
+            .header p { font-size: 1rem; }
+            .back-btn { top: 15px; left: 15px; font-size: 0.8rem; padding: 8px 12px; }
+            .glow-frame { width: 140px; height: 280px; }
+            .chat-bubble { max-width: 95%; font-size: 0.95rem; }
         }
 
         /* Cinematic Footer */
@@ -291,7 +309,7 @@
     
     <div class="header">
         <h1>Ocean of Memories</h1>
-        <p>நம்முடைய அழகான தருணங்கள்</p>
+        <p>நினைவுகளின் காட்சியகம்</p>
     </div>
 
     <div class="marquee-container">
@@ -314,7 +332,7 @@
     <!-- Cinematic Footer -->
     <footer class="cinematic-footer">
         <div class="content-wrapper text-center">
-            <p>Made with endless love for Preetha 💙</p>
+            <p class="tamil-text" style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.6); margin: 0; text-shadow: 0 0 5px rgba(56, 189, 248, 0.3);">முழுக்க முழுக்க பிரீத்தாவுக்காக உருவாக்கப்பட்டது 💙</p>
             <div class="footer-glow"></div>
         </div>
     </footer>
@@ -392,5 +410,6 @@
             }
         }, { once: true });
     </script>
+    <script src="anti-inspect.js"></script>
 </body>
 </html>
