@@ -279,13 +279,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // INITIAL ROUTING FLOW
     // ==========================================
-    // Always start from login page to show the full sequence
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('wished');
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const hasWished = localStorage.getItem('wished') === 'true';
 
-    if (loginSection) loginSection.style.display = 'flex';
-    if (landing) landing.style.display = 'none';
-    if (mainContent) mainContent.style.display = 'none';
+    if (isLoggedIn) {
+        if (loginSection) loginSection.style.display = 'none';
+        
+        if (hasWished) {
+            if (landing) landing.style.display = 'none';
+            if (mainContent) {
+                mainContent.style.display = 'block';
+                mainContent.style.opacity = '1';
+            }
+            setupAudioSync();
+            showFloatingButton();
+            initScrollAnimations();
+            setTimeout(typeIntro, 500);
+        } else {
+            if (landing) {
+                landing.style.display = 'flex';
+                landing.style.opacity = '1';
+            }
+            if (mainContent) mainContent.style.display = 'none';
+        }
+    } else {
+        if (loginSection) loginSection.style.display = 'flex';
+        if (landing) landing.style.display = 'none';
+        if (mainContent) mainContent.style.display = 'none';
+    }
 
     // ==========================================
     // CAKE BLOW EVENT LISTENER
