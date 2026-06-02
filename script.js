@@ -709,25 +709,22 @@ document.addEventListener('DOMContentLoaded', () => {
    SECRET MESSAGE MODAL LOGIC
    ========================================== */
 
-let generatedSecretOTP = "";
-
 window.openSecretModal = function(e) {
     if(e) e.preventDefault();
     const modal = document.getElementById('secret-modal');
     if(modal) {
-        // Reset to step 1
-        document.getElementById('secret-step-1').classList.add('active');
-        document.getElementById('secret-step-1').style.opacity = '1';
-        document.getElementById('secret-step-1').style.display = 'block';
-        document.getElementById('secret-step-1').style.transform = 'translateY(0)';
-        
-        document.getElementById('secret-step-2').classList.remove('active');
-        document.getElementById('secret-step-2').style.display = 'none';
-        
+        // Reset to step 2 (Security Questions)
         document.getElementById('secret-step-3').classList.remove('active');
         document.getElementById('secret-step-3').style.display = 'none';
         
-        document.getElementById('secret-modal-code').value = '';
+        document.getElementById('secret-step-2').classList.add('active');
+        document.getElementById('secret-step-2').style.opacity = '1';
+        document.getElementById('secret-step-2').style.display = 'block';
+        document.getElementById('secret-step-2').style.transform = 'translateY(0)';
+        
+        document.getElementById('sec-dob').value = '';
+        document.getElementById('sec-color').value = '';
+        document.getElementById('sec-hearts').value = '';
         document.getElementById('secret-error').style.display = 'none';
         
         modal.classList.remove('scrolling-mode');
@@ -766,30 +763,37 @@ window.switchSecretStep = function(hideId, showId) {
     }, 500);
 };
 
-window.generateSecretCode = function() {
-    generatedSecretOTP = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log("Secret Code generated: ", generatedSecretOTP);
-
-    const waNumber = '919087590967';
-    const waText = encodeURIComponent(`Here is the secret key to unlock the message: ${generatedSecretOTP}`);
-    const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
-
-    window.switchSecretStep('secret-step-1', 'secret-step-2');
-    window.open(waUrl, '_blank');
-};
-
-window.verifySecretCode = function() {
-    const codeInput = document.getElementById('secret-modal-code').value.trim();
+window.verifySecurityQuestions = function() {
+    const dob = document.getElementById('sec-dob').value.trim();
+    const color = document.getElementById('sec-color').value.trim().toLowerCase();
+    const hearts = document.getElementById('sec-hearts').value.trim();
     const errorMsg = document.getElementById('secret-error');
     
-    if (codeInput === generatedSecretOTP || codeInput === '123456') {
+    // Validation Logic (Obfuscated)
+    const encodedDOB = btoa(dob);
+    const isValidDOB = (encodedDOB === 'MDMvMDYvMTk5OQ==' || encodedDOB === 'MDMtMDYtMTk5OQ==' || encodedDOB === 'My82LzE5OTk=' || encodedDOB === 'MDMgMDYgMTk5OQ==');
+    
+    // Decode obfuscated strings to perform permissive checks
+    const decodedSkyblue = atob('c2t5Ymx1ZQ=='); // skyblue
+    const decodedSky_blue = atob('c2t5IGJsdWU='); // sky blue
+    const decodedBlue = atob('Ymx1ZQ=='); // blue
+    
+    const isValidColor = (color.includes(decodedSkyblue) || color.includes(decodedSky_blue) || color.includes(decodedBlue));
+    
+    // Check for 🩵 Skyblue Heart
+    const isValidHearts = (hearts === '🩵' || hearts === '🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵');
+    
+    // Master override code
+    const isOverride = (btoa(dob) === 'MTIzNDU2');
+
+    if ((isValidDOB && isValidColor && isValidHearts) || isOverride) {
         errorMsg.style.display = 'none';
-        window.switchSecretStep('secret-step-2', 'secret-step-3');
-        // Enable scrolling for the long message
-        setTimeout(() => {
-            document.getElementById('secret-modal').classList.add('scrolling-mode');
-        }, 500);
+        window.location.href = 'secret.html';
     } else {
         errorMsg.style.display = 'block';
+        if (!isValidDOB) errorMsg.innerText = "Incorrect DOB.";
+        else if (!isValidColor) errorMsg.innerText = "Incorrect Color.";
+        else if (!isValidHearts) errorMsg.innerText = "Incorrect Emoji selected!";
+        else errorMsg.innerText = "Incorrect answers. Please try again.";
     }
 };
