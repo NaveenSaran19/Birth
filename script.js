@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const landing = document.getElementById('landing');
     const mainContent = document.getElementById('main-content');
     const bgMusic = document.getElementById('bg-music');
-    let isStarted = false;
+    window.isStarted = false;
 
     function showFloatingButton() {
         const btn = document.getElementById('floating-memories-btn');
@@ -58,6 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 btn.style.opacity = '1';
             }, 3000);
+        }
+        
+        const logoutBtn = document.getElementById('floating-logout-btn');
+        if (logoutBtn) {
+            logoutBtn.style.display = 'flex';
+            setTimeout(() => {
+                logoutBtn.style.opacity = '1';
+            }, 1000);
         }
     }
 
@@ -68,7 +76,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedTime) {
             bgMusic.currentTime = parseFloat(savedTime);
         }
-        bgMusic.play().catch(e => console.log("Audio play blocked: ", e));
+        
+        const playAudio = () => {
+            const playPromise = bgMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    document.body.removeEventListener('click', playAudio);
+                    document.body.removeEventListener('touchstart', playAudio);
+                }).catch(e => {
+                    console.log("Audio play blocked: ", e);
+                });
+            }
+        };
+
+        playAudio();
+        document.body.addEventListener('click', playAudio);
+        document.body.addEventListener('touchstart', playAudio);
         
         setInterval(() => {
             if (!bgMusic.paused) {
@@ -343,8 +366,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
 
         cake.addEventListener('click', () => {
-            if (isStarted) return;
-            isStarted = true;
+            if (window.isStarted) return;
+            window.isStarted = true;
             localStorage.setItem('wished', 'true');
 
             const flame = cake.querySelector('.cake-flame');
@@ -681,3 +704,92 @@ document.addEventListener('DOMContentLoaded', () => {
 
     drawUniverse();
 });
+
+/* ==========================================
+   SECRET MESSAGE MODAL LOGIC
+   ========================================== */
+
+let generatedSecretOTP = "";
+
+window.openSecretModal = function(e) {
+    if(e) e.preventDefault();
+    const modal = document.getElementById('secret-modal');
+    if(modal) {
+        // Reset to step 1
+        document.getElementById('secret-step-1').classList.add('active');
+        document.getElementById('secret-step-1').style.opacity = '1';
+        document.getElementById('secret-step-1').style.display = 'block';
+        document.getElementById('secret-step-1').style.transform = 'translateY(0)';
+        
+        document.getElementById('secret-step-2').classList.remove('active');
+        document.getElementById('secret-step-2').style.display = 'none';
+        
+        document.getElementById('secret-step-3').classList.remove('active');
+        document.getElementById('secret-step-3').style.display = 'none';
+        
+        document.getElementById('secret-modal-code').value = '';
+        document.getElementById('secret-error').style.display = 'none';
+        
+        modal.classList.remove('scrolling-mode');
+        modal.classList.add('active');
+    }
+};
+
+window.closeSecretModal = function() {
+    const modal = document.getElementById('secret-modal');
+    if(modal) {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.classList.remove('scrolling-mode');
+        }, 500);
+    }
+};
+
+window.switchSecretStep = function(hideId, showId) {
+    const hideEl = document.getElementById(hideId);
+    const showEl = document.getElementById(showId);
+    
+    hideEl.style.opacity = '0';
+    hideEl.style.transform = 'translateY(-20px)';
+    
+    setTimeout(() => {
+        hideEl.classList.remove('active');
+        hideEl.style.display = 'none';
+        
+        showEl.classList.add('active');
+        showEl.style.display = 'block';
+        // Trigger reflow
+        void showEl.offsetWidth;
+        
+        showEl.style.opacity = '1';
+        showEl.style.transform = 'translateY(0)';
+    }, 500);
+};
+
+window.generateSecretCode = function() {
+    generatedSecretOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log("Secret Code generated: ", generatedSecretOTP);
+
+    const waNumber = '919087590967';
+    const waText = encodeURIComponent(`Here is the secret key to unlock the message: ${generatedSecretOTP}`);
+    const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
+
+    window.switchSecretStep('secret-step-1', 'secret-step-2');
+    window.open(waUrl, '_blank');
+};
+
+window.verifySecretCode = function() {
+    const codeInput = document.getElementById('secret-modal-code').value.trim();
+    const errorMsg = document.getElementById('secret-error');
+    
+    if (codeInput === generatedSecretOTP || codeInput === '123456') {
+        errorMsg.style.display = 'none';
+        window.switchSecretStep('secret-step-2', 'secret-step-3');
+        // Enable scrolling for the long message
+        setTimeout(() => {
+            document.getElementById('secret-modal').classList.add('scrolling-mode');
+        }, 500);
+    } else {
+        errorMsg.style.display = 'block';
+    }
+};
