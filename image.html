@@ -307,7 +307,7 @@
 
     <a href="index.html" class="back-btn"><i class="bi bi-arrow-left"></i> Return to Universe</a>
     
-    <button onclick="if(window.logoutUser) window.logoutUser(); else { localStorage.setItem('isLoggedIn', 'false'); window.location.href='index.html'; }" class="back-btn" style="left: auto; right: 40px; border-color: #ef4444; color: #ef4444;" onmouseover="this.style.background='rgba(220,38,38,0.2)'; this.style.color='#fff';" onmouseout="this.style.background='var(--glass-bg)'; this.style.color='#ef4444';">
+    <button onclick="if(window.logoutUser) window.logoutUser(); else { sessionStorage.setItem('isLoggedIn', 'false'); window.location.href='index.html'; }" class="back-btn" style="left: auto; right: 40px; border-color: #ef4444; color: #ef4444;" onmouseover="this.style.background='rgba(220,38,38,0.2)'; this.style.color='#fff';" onmouseout="this.style.background='var(--glass-bg)'; this.style.color='#ef4444';">
         <i class="bi bi-box-arrow-right"></i> Logout
     </button>
     
@@ -349,14 +349,14 @@
             const bgMusic = document.getElementById('bg-music');
             if (bgMusic) {
                 bgMusic.volume = 0.4;
-                const savedTime = localStorage.getItem('musicTime');
+                const savedTime = sessionStorage.getItem('musicTime');
                 if (savedTime) {
                     bgMusic.currentTime = parseFloat(savedTime);
                 }
                 
                 setInterval(() => {
                     if (!bgMusic.paused) {
-                        localStorage.setItem('musicTime', bgMusic.currentTime);
+                        sessionStorage.setItem('musicTime', bgMusic.currentTime);
                     }
                 }, 500);
             }

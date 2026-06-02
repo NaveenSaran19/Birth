@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Clear login state on page reload
     if (String(performance.getEntriesByType("navigation")[0]?.type) === "reload" || performance.navigation.type === 1) {
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('wished');
-        localStorage.removeItem('currentUser');
+        sessionStorage.removeItem('isLoggedIn');
+        sessionStorage.removeItem('wished');
+        sessionStorage.removeItem('currentUser');
     }
 
     // ==========================================
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupAudioSync() {
         if (!bgMusic) return;
         bgMusic.volume = 0.4;
-        const savedTime = localStorage.getItem('musicTime');
+        const savedTime = sessionStorage.getItem('musicTime');
         if (savedTime) {
             bgMusic.currentTime = parseFloat(savedTime);
         }
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setInterval(() => {
             if (!bgMusic.paused) {
-                localStorage.setItem('musicTime', bgMusic.currentTime);
+                sessionStorage.setItem('musicTime', bgMusic.currentTime);
             }
         }, 500);
     }
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // LOGIN & MOCK DATABASE SYSTEM
     // ==========================================
     const defaultUsers = [{ username: 'Preetha', password: 'Preetha@03061999' }];
-    localStorage.setItem('users', JSON.stringify(defaultUsers));
+    sessionStorage.setItem('users', JSON.stringify(defaultUsers));
 
     const loginSection = document.getElementById('login-section');
     const loginForm = document.getElementById('login-form');
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            let users = JSON.parse(sessionStorage.getItem('users') || '[]');
             const exists = users.some(u => u.username.toLowerCase() === username.toLowerCase());
             if (exists) {
                 signupError.innerText = "இந்த பயனர் பெயர் ஏற்கனவே உள்ளது (Username exists)";
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             users.push({ username, password });
-            localStorage.setItem('users', JSON.stringify(users));
+            sessionStorage.setItem('users', JSON.stringify(users));
             
             signupSuccess.innerText = "கணக்கு உருவாக்கப்பட்டது! உள்நுழையவும் ✨";
             signupSuccess.style.display = 'block';
@@ -271,8 +271,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Successful Login
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('currentUser', username);
+            sessionStorage.setItem('isLoggedIn', 'true');
+            sessionStorage.setItem('currentUser', username);
             
             // Success animation
             loginCard.style.opacity = '0';
@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (loginSection) loginSection.style.display = 'none';
                 
                 // Start cake or main scene depending on wish state
-                if (localStorage.getItem('wished') === 'true') {
+                if (sessionStorage.getItem('wished') === 'true') {
                     if (landing) landing.style.display = 'none';
                     if (mainContent) {
                         mainContent.style.display = 'block';
@@ -308,8 +308,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // INITIAL ROUTING FLOW
     // ==========================================
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const hasWished = localStorage.getItem('wished') === 'true';
+    const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+    const hasWished = sessionStorage.getItem('wished') === 'true';
 
     if (isLoggedIn) {
         if (loginSection) loginSection.style.display = 'none';
@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cake.addEventListener('click', () => {
             if (window.isStarted) return;
             window.isStarted = true;
-            localStorage.setItem('wished', 'true');
+            sessionStorage.setItem('wished', 'true');
 
             const flame = cake.querySelector('.cake-flame');
             if (flame) {

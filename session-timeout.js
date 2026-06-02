@@ -5,9 +5,9 @@
 
     window.logoutUser = function logout() {
         // Only logout if the user is actually logged in
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-            localStorage.setItem('isLoggedIn', 'false');
-            localStorage.removeItem('currentUser');
+        if (sessionStorage.getItem('isLoggedIn') === 'true') {
+            sessionStorage.setItem('isLoggedIn', 'false');
+            sessionStorage.removeItem('currentUser');
             
             // If already on the homepage, update the DOM without reloading
             if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || window.location.pathname.endsWith('/birth')) {
@@ -18,7 +18,7 @@
                 
                 // Full State Reset
                 window.isStarted = false;
-                localStorage.removeItem('wished');
+                sessionStorage.removeItem('wished');
                 const flame = document.querySelector('.cake-flame');
                 if (flame) flame.classList.remove('extinguished');
                 
@@ -64,7 +64,7 @@
     function resetTimer() {
         clearTimeout(timeout);
         // Only start timer if logged in
-        if (localStorage.getItem('isLoggedIn') === 'true') {
+        if (sessionStorage.getItem('isLoggedIn') === 'true') {
             timeout = setTimeout(logout, INACTIVITY_LIMIT);
         }
     }
@@ -91,7 +91,7 @@
                 const loginCard = document.querySelector('.login-card');
                 
                 window.isStarted = false;
-                localStorage.removeItem('wished');
+                sessionStorage.removeItem('wished');
                 const flame = document.querySelector('.cake-flame');
                 if (flame) flame.classList.remove('extinguished');
                 
