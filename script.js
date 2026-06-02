@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Clear login state on page reload
+    if (String(performance.getEntriesByType("navigation")[0]?.type) === "reload" || performance.navigation.type === 1) {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('wished');
+        localStorage.removeItem('currentUser');
+    }
+
     // ==========================================
     // CINEMATIC TYPING EFFECT
     // ==========================================
@@ -251,8 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const username = loginUsernameInput.value.trim();
             const password = loginPasswordInput.value;
             
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+            const user = (username.toLowerCase() === 'preetha' && password === 'Preetha@03061999');
             
             if (!user) {
                 loginError.innerText = "தவறான பயனர் பெயர் அல்லது கடவுச்சொல் (Invalid Credentials) ❌";
